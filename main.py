@@ -1,8 +1,8 @@
-from astrbot.core.star import Context, Star, register
-from astrbot.core.platform import AstrMessageEvent
-from astrbot.core.message.message_event_result import MessageEventResult, MessageChain
-from astrbot.core.message_components import Plain, Image
-from astrbot.core.star.filter.event_message_type import EventMessageTypeFilter, EventMessageType
+from astrbot.api.star import Context, Star, register
+from astrbot.api.platform import AstrMessageEvent
+from astrbot.api.message.message_event_result import MessageEventResult, MessageChain
+from astrbot.api.message_components import Plain, Image
+from astrbot.api.star.filter.event_message_type import EventMessageTypeFilter, EventMessageType
 import aiohttp
 import logging
 
