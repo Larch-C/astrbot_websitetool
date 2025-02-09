@@ -1,8 +1,4 @@
-from astrbot.api.star import Context, Star, register
-from astrbot.api.platform import AstrMessageEvent
-from astrbot.api.message.message_event_result import MessageEventResult, MessageChain
-from astrbot.api.message_components import Plain, Image
-from astrbot.api.star.filter.event_message_type import EventMessageTypeFilter, EventMessageType
+from astrbot.api.all import *
 import aiohttp
 import logging
 
@@ -64,7 +60,7 @@ class SiteToolsPlugin(Star):
         else:
             return event.plain_result(f"\n错误：{data.get('msg', '未知错误')}")
 
-    @command("sitehelp")
+    @filter.command("sitehelp")
     async def show_help(self, event: AstrMessageEvent) -> MessageEventResult:
         """显示帮助信息"""
         help_text = """
