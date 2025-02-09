@@ -15,12 +15,7 @@ API_BASE_URL = "https://v2.xxapi.cn/api"
 USER_AGENT = "xiaoxiaoapi/1.0.0 (https://xxapi.cn)"
 COMMON_HEADERS = {"User-Agent": USER_AGENT}
 
-@register(
-    name="astrbot_websitetool",
-    display_name="wxgl",
-    description="集成网站测试工具，支持连通性测试、速度测试、域名查询、端口扫描和截图。使用/sitehelp查看帮助",
-    version="1.0"
-)
+@register("astrbot_websitetool","wxgl","集成网站测试工具，支持连通性测试、速度测试、域名查询、端口扫描和截图。使用/sitehelp查看帮助","1.0")
 class SiteToolsPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
