@@ -1,5 +1,5 @@
 name: astrbot_websitetool # 基于mccloud_site的更新版
-desc: 一个集成了网站测试工具的插件，支持网站连通性测试、速度测试、域名查询、端口扫描和网站截图功能。使用/sitehelp查看帮助。 # 插件简短描述
+desc: 一个网站测试工具的插件，支持网站ping、延迟、域名查询、端口扫描和网站截图。基于mccloud_site的修复版。使用/sitehelp查看帮助。 # 插件简短描述
 help: 输入 /sitehelp 查看关键词回复帮助。 # 插件的帮助信息
 version: v1.0
 author: wxgl # 作者

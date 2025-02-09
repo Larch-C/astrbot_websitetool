@@ -60,7 +60,7 @@ class SiteToolsPlugin(Star):
         else:
             return event.plain_result(f"\n错误：{data.get('msg', '未知错误')}")
 
-    @filter.command("sitehelp")
+    @command("sitehelp")
     async def show_help(self, event: AstrMessageEvent) -> MessageEventResult:
         """显示帮助信息"""
         help_text = """
@@ -74,11 +74,11 @@ class SiteToolsPlugin(Star):
 /site <网址>  - 获取网站截图
 
 示例:
-/ping mcsqz.stay33.cn
-/siteno https://mcsqz.stay33.cn
-/whois mcsqz.stay33.cn
+/ping bing.com
+/siteno https://www.bing.com
+/whois bing.com
 /port 8.8.8.8
-/site https://mcsqz.stay33.cn"""
+/site https://www.bing.com"""
         return event.plain_result(help_text)
 
     @command("ping")
@@ -86,7 +86,7 @@ class SiteToolsPlugin(Star):
         """检测网站连通性"""
         args = self.parse_command_args(event)
         if not args:
-            return event.plain_result("请输入要测试的域名!\n示例: /ping mcsqz.stay33.cn")
+            return event.plain_result("请输入要测试的域名!\n示例: /ping bing.com")
 
         return await self.send_api_result(
             event,
@@ -102,7 +102,7 @@ class SiteToolsPlugin(Star):
         """检测网站延迟"""
         args = self.parse_command_args(event)
         if not args:
-            return event.plain_result("请输入要测试的网址!\n示例: /siteno https://mcsqz.stay33.cn")
+            return event.plain_result("请输入要测试的网址!\n示例: /siteno https://www.bing.com")
 
         return await self.send_api_result(
             event,
@@ -118,7 +118,7 @@ class SiteToolsPlugin(Star):
         """WHOIS查询"""
         args = self.parse_command_args(event)
         if not args:
-            return event.plain_result("请输入要查询的域名!\n示例: /whois baidu.com")
+            return event.plain_result("请输入要查询的域名!\n示例: /whois bing.com")
 
         return await self.send_api_result(
             event,
