@@ -36,7 +36,7 @@ class SiteToolsPlugin(Star):
         if not messages:
             return []
 
-        message_text = messages[0].text.strip()
+        message_text = "".join([msg.text for msg in messages if isinstance(msg, Plain)])
         parts = message_text.split(maxsplit=1)  # 只分割一次保留完整URL
         if len(parts) < min_args + 1:
             return []
