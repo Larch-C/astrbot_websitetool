@@ -36,7 +36,7 @@ class SiteToolsPlugin(Star):
         text_parts=[
             component.text.strip()
             for component in event.get_messages()
-            if isinstance(component,Plain)
+            if isinstance(component,Plain)#只处理Plain类型数据
         ]
         
         if not text_parts:
@@ -48,7 +48,7 @@ class SiteToolsPlugin(Star):
         if len(parts)<min_args+1:
             return[]
 
-        return parts[1].split() 
+        return parts[1].split()#返回参数列表
 
     async def send_api_result(
         self,
@@ -76,10 +76,10 @@ class SiteToolsPlugin(Star):
 
 /sitehelp    - 显示帮助信息
 /ping <网址> - 测试网站连通性
-/siteno <网址> - 测试网站延迟
+/siteno <含http(s)的网址> - 测试网站延迟
 /whois <域名> - 查询域名信息
 /port <IP地址> - 端口扫描
-/site <网址>  - 获取网站截图
+/site <含http(s)的网址>  - 获取网站截图
 
 示例:
 /ping bing.com
@@ -110,7 +110,7 @@ class SiteToolsPlugin(Star):
         """检测网站延迟"""
         args = self.parse_command_args(event)
         if not args:
-            return event.plain_result("请输入要测试的网址!\n示例: /siteno https://www.bing.com")
+            return event.plain_result("请输入要测试的网址，包含http(s)等！\n示例: /siteno https://www.bing.com")
 
         return await self.send_api_result(
             event,
@@ -174,7 +174,7 @@ DNS：{', '.join(data['data']['DNS Serve'][:2])}
         """网站截图"""
         args = self.parse_command_args(event)
         if not args:
-            return event.plain_result("请输入网址!\n示例: /site https://mcsqz.stay33.cn")
+            return event.plain_result("请输入网址,包含http(s)等!\n示例: /site https://www.bing.com")
 
         return await self.send_api_result(
             event,
