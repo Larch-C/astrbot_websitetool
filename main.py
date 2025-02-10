@@ -48,7 +48,7 @@ class SiteToolsPlugin(Star):
         if len(parts)<min_args+1:
             return[]
 
-        return parts[1].split 
+        return parts[1].split() 
 
     async def send_api_result(
         self,
