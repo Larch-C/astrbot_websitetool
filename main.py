@@ -32,15 +32,23 @@ class SiteToolsPlugin(Star):
 
     def parse_command_args(self, event: AstrMessageEvent, min_args: int = 1) -> list:
         """解析命令参数"""
-        messages = event.get_messages()
-        if not messages:
+        #提取所有文本消息内容
+        text_parts=[
+            component.text.strip()
+            for component in event.get_messages()
+            if isinstance(component,Plain)
+        ]
+        
+        if not text_parts:
             return []
 
-        message_text = "".join([msg.text for msg in messages if isinstance(msg, Plain)])
-        parts = message_text.split(maxsplit=1)  # 只分割一次保留完整URL
-        if len(parts) < min_args + 1:
-            return []
-        return parts[1].split()  # 允许后续参数自由分割
+        full_text="".join(text_parts)
+        parts=full_text.split(maxsplit=1)
+
+        if len(parts)<min_args+1:
+            return[]
+
+        return parts[1].split 
 
     async def send_api_result(
         self,
@@ -177,7 +185,3 @@ DNS：{', '.join(data['data']['DNS Serve'][:2])}
                 Image.fromURL(data['data'])
             ])
         )
-
-    async def on_unload(self):
-        """插件卸载时关闭会话"""
-        await self.session.close()
