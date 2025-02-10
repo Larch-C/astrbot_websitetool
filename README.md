@@ -2,7 +2,8 @@
 
 基于mcccloud_site的修复版本，近乎重写代码
 
-项目更新.24版本后仍报'At' object has no attribute 'text'，正在修改中
+## 已修复
+[x]项目更新.24版本后仍报'At' object has no attribute 'text'
 
 本人是高中学生，如果有Issues欢迎提交
 
