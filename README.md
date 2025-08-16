@@ -4,7 +4,8 @@
 
 ### 已修复
 - [x] 项目更新.24版本后仍报'At' object has no attribute 'text'
-
+### 新增
+- [x] 添加tcping功能（itdong有反爬，获取不到数据，用的另一个）
 本人是高中学生，如果有Issues欢迎提交
 
 # 支持
