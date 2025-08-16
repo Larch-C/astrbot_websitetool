@@ -11,7 +11,9 @@ API_BASE_URL = "https://v2.xxapi.cn/api"
 USER_AGENT = "xiaoxiaoapi/1.0.0 (https://xxapi.cn)"
 COMMON_HEADERS = {"User-Agent": USER_AGENT}
 
-@register("astrbot_websitetool","wxgl","集成网站测试工具，支持连通性测试、速度测试、域名查询、端口扫描和截图。使用/sitehelp查看帮助","1.0")
+
+@register("astrbot_websitetool", "wxgl",
+          "集成网站测试工具，支持连通性测试、速度测试、域名查询、端口扫描和截图。使用/sitehelp查看帮助", "1.0")
 class SiteToolsPlugin(Star):
     def __init__(self, context: Context):
         super().__init__(context)
@@ -32,30 +34,30 @@ class SiteToolsPlugin(Star):
 
     def parse_command_args(self, event: AstrMessageEvent, min_args: int = 1) -> list:
         """解析命令参数"""
-        #提取所有文本消息内容
-        text_parts=[
+        # 提取所有文本消息内容
+        text_parts = [
             component.text.strip()
             for component in event.get_messages()
-            if isinstance(component,Plain)#只处理Plain类型数据
+            if isinstance(component, Plain)  # 只处理Plain类型数据
         ]
-        
+
         if not text_parts:
             return []
 
-        full_text="".join(text_parts)
-        parts=full_text.split(maxsplit=1)
+        full_text = "".join(text_parts)
+        parts = full_text.split(maxsplit=1)
 
-        if len(parts)<min_args+1:
-            return[]
+        if len(parts) < min_args + 1:
+            return []
 
-        return parts[1].split()#返回参数列表
+        return parts[1].split()  # 返回参数列表
 
     async def send_api_result(
-        self,
-        event: AstrMessageEvent,
-        endpoint: str,
-        params: dict,
-        success_handler: callable
+            self,
+            event: AstrMessageEvent,
+            endpoint: str,
+            params: dict,
+            success_handler: callable
     ) -> MessageEventResult:
         """统一处理API请求和响应"""
         url = f"{API_BASE_URL}/{endpoint}"
@@ -75,6 +77,7 @@ class SiteToolsPlugin(Star):
 站长工具使用帮助:
 
 /sitehelp    - 显示帮助信息
+/tcping <域名或IP地址> - TCP端口连通性测试
 /ping <网址> - 测试网站连通性
 /siteno <含http(s)的网址> - 测试网站延迟
 /whois <域名> - 查询域名信息
@@ -82,12 +85,37 @@ class SiteToolsPlugin(Star):
 /site <含http(s)的网址>  - 获取网站截图
 
 示例:
+/tcping bing.com 或 /tcping bing.com 443
 /ping bing.com
 /siteno https://www.bing.com
 /whois bing.com
 /port 8.8.8.8
 /site https://www.bing.com"""
         return event.plain_result(help_text)
+
+    @command("tcping")
+    async def check_tcping(self, event: AstrMessageEvent) -> MessageEventResult:
+        """TCP端口连通性测试"""
+        args = self.parse_command_args(event)
+        if not args:
+            return event.plain_result("传入需要tcping的ip或者域名，不需要加http或https!\n示例: /tcping bing.com\n示例: /tcping bing.com 443")
+
+        host = args[0]
+        port = args[1] if len(args) > 1 else "80"  # 默认端口80
+
+        try:
+            port = int(port)
+        except ValueError:
+            return event.plain_result("端口号必须是数字!\n示例: /tcping bing.com 443")
+
+        return await self.send_api_result(
+            event,
+            endpoint="tcping",
+            params={"address": host, "port": port},
+            success_handler=lambda data: event.plain_result(
+                f"\n状态：{data['msg']}\n测试地址：{data['data']['address']}\n延迟：{data['data']['ping']}\n端口：{data['data']['port']}"
+            )
+        )
 
     @command("ping")
     async def check_ping(self, event: AstrMessageEvent) -> MessageEventResult:
@@ -161,11 +189,11 @@ DNS：{', '.join(data['data']['DNS Serve'][:2])}
         """格式化端口扫描结果"""
         open_ports = [p for p, status in port_data.items() if status]
         closed_ports = [p for p, status in port_data.items() if not status]
-        
+
         # 限制最多显示20个端口
         def truncate(ports):
             return ports[:20] + ["..."] if len(ports) > 20 else ports
-            
+
         return f"""开放端口：{' | '.join(truncate(open_ports)) or '无'}
 未开放端口：{' | '.join(truncate(closed_ports)) or '无'}"""
 
